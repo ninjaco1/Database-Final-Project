@@ -1,0 +1,16 @@
+.HospitalPage {
+  padding: 10px;
+  display: flex;
+  background-color: #242526;
+  flex-direction: column;
+  font-family: "Archivo", sans-serif;
+  margin: 10px;
+}
+
+.groupForms {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    padding: 10px;
+
+}
