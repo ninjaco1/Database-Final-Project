@@ -25,23 +25,23 @@ function App() {
         <Header /> 
         {/* Route */}
         <Switch>
-          <Route path="/doctors">
+          <Route path="/my-app/doctors">
             <Doctors />
           </Route>
           
-          <Route path="/hospitals">
+          <Route path="/my-app/hospitals">
             <Hospital />
           </Route>
 
-          <Route path="/insurance">
+          <Route path="/my-app/insurance">
             <InsuranceProviders />
           </Route>
 
-          <Route path="/patients">
+          <Route path="/my-app/patients">
             <Patients />
           </Route>
 
-          <Route path="/pharmacies">
+          <Route path="/my-app/pharmacies">
             <Pharmacies />
           </Route>
           <Route path="/">

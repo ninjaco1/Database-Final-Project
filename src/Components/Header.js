@@ -21,11 +21,11 @@ function Header() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <NavDropdown title="Data Uploaders" id="collapsable-nav-dropdown">
-            <NavDropdown.Item href="/hospitals">Hospitals</NavDropdown.Item>
-              <NavDropdown.Item href="/doctors">Doctors</NavDropdown.Item>
-              <NavDropdown.Item href="/patients">Patients</NavDropdown.Item>
-              <NavDropdown.Item href="/insurance">Insurance Providers</NavDropdown.Item>
-              <NavDropdown.Item href="/pharmacies">Pharmacies</NavDropdown.Item>
+            <NavDropdown.Item href="/my-app/hospitals">Hospitals</NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/doctors">Doctors</NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/patients">Patients</NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/insurance">Insurance Providers</NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/pharmacies">Pharmacies</NavDropdown.Item>
             </NavDropdown>
             {/* <Nav.Link href="/pricing">Pricing</Nav.Link> */}
           </Nav>
