@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../InsuranceProviders.css"
+import { MDBDataTableV5 } from 'mdbreact';
 
 class InsuranceProviders extends React.Component {
   constructor(props) {
@@ -10,6 +11,44 @@ class InsuranceProviders extends React.Component {
       provider_name: "",
       preExistingConditions: "",
       deductable: 0
+	  datatable: {
+        columns: [
+          {
+            label: 'Name',
+            field: 'provider_name',
+            width: 150,
+            attributes: {
+            'aria-controls': 'DataTable',
+            'aria-label': 'Name',
+            }
+          },
+          {
+            label: 'Pre-existing Conditions',
+            field: 'preExistingConditions',
+            width: 270,
+          },
+          {
+            label: 'Deductible',
+            field: 'deductable',
+            width: 200,
+          },
+        ],
+        rows: [
+          
+          {
+            name: 'State Cities',
+			preExistingConditions: 'No',
+			deductable: 100.50;
+            
+          },
+          {
+            name: 'All Father',
+			preExistingConditions: 'Yes',
+			deductable: 300;
+          }
+          
+        ]
+      }
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -95,6 +134,8 @@ class InsuranceProviders extends React.Component {
         <Button variant="outline-danger" type="submit">
           Submit
         </Button>
+		 {/* table  */}
+        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={this.state.datatable} />
       </div>
     );
   }

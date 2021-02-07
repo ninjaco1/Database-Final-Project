@@ -1,9 +1,115 @@
-import React from "react";
+import React, {useState} from "react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Patients.css"
+import { MDBDataTableV5 } from 'mdbreact';
 
-function Patients() {
+class Patients extends React.Component {
+	constructor(props) {
+    super(props);
+    this.state = {
+      first_name:"",
+      last_name:"",
+      DOB:"",
+      weight: 0,
+      height:"",
+      sex:"",
+      phone_number:"",
+      blood_type:"",
+      medication_allergies: 0,
+	  datatable: {
+        columns: [
+          {
+            label: 'First Name',
+            field: 'first_name',
+            width: 150,
+            attributes: {
+            'aria-controls': 'DataTable',
+            'aria-label': 'Name',
+            }
+		  },
+          {
+            label: 'Last Name',
+            field: 'last_name',
+            width: 150,
+            attributes: {
+            'aria-controls': 'DataTable',
+            'aria-label': 'Name',
+            }
+          },
+          {
+            label: 'Date of Birth',
+            field: 'DOB',
+            width: 200,
+          },
+          {
+            label: 'Weight (lbs)',
+            field: 'weight',
+            width: 200,
+          },
+          {
+            label: 'Height (#\' #")',
+            field: 'height',
+            width: 200,
+          },
+          {
+            label: 'Sex (M/F)',
+            field: 'sex',
+            width: 200,
+          },
+          {
+            label: 'Phone Number',
+            field: 'phone_number',
+            width: 200,
+          },
+          {
+            label: 'Blood Type',
+            field: 'blood_type',
+            width: 200,
+          },
+          {
+            label: 'Medication Allergies',
+            field: 'medication_allergies',
+            width: 200,
+          },
+        ],
+        rows: [
+			{
+				first_name:"Steve",
+				last_name:"Block",
+				DOB:"2011/11/18",
+				weight: 200,
+				height:"6' 6\"",
+				sex:"M",
+				phone_number:"800-686-2456",
+				blood_type:"O-",
+				medication_allergies: 0;
+			},
+			{
+				first_name:"Samantha",
+				last_name:"Smith",
+				DOB:"1999/3/15",
+				weight: 158,
+				height:"6'",
+				sex:"F",
+				phone_number:"545-981-3546",
+				blood_type:"AB+",
+				medication_allergies: 1;
+			}
+        ]
+      }
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+  
+  
+render() {
   return (
     <div class = "PatientsPage">
         <header>
@@ -90,15 +196,15 @@ function Patients() {
                     />
                     <Form.Text className="text-muted">A, AB, B, O AND +/-</Form.Text>
                 </Form.Group>
-
-                <Form.Group className = "GroupPatient" controlId="PatientsNumber_Of_Patients">
-                    <Form.Label>Number of Patients</Form.Label>
+				
+				<Form.Group className = "GroupPatient" controlId="PatientsMedication_allergies">
+                    <Form.Label>Medication Allergies</Form.Label>
                     <Form.Control 
                     type="text" 
                     className ="internalText" 
-                    placeholder="Number_Of_Patients" 
+                    placeholder="Medication_allergies" 
                     />
-                    <Form.Text className="text-muted">Positive Integer</Form.Text>
+                    <Form.Text className="text-muted">1(True) or 0(False)</Form.Text>
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
@@ -106,8 +212,11 @@ function Patients() {
                 </Button>
             </Form>
             </div>
+			{/* table  */}
+			<MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={this.state.datatable} />
     </div>
   );
+}
 }
 
 export default Patients;
