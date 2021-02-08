@@ -3,8 +3,7 @@ import { Button, Col, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Hospital.css"
 import { MDBDataTableV5 } from 'mdbreact';
-
-
+import HospitalTable from "../Components/HospitalTable";
 
 
 class Hospital extends React.Component {
@@ -17,58 +16,7 @@ class Hospital extends React.Component {
       city: "",
       state: "",
       zipCode: "",
-      datatable: {
-        columns: [
-          {
-            label: 'Name',
-            field: 'name',
-            width: 150,
-            attributes: {
-            'aria-controls': 'DataTable',
-            'aria-label': 'Name',
-            }
-          },
-          {
-            label: 'Street',
-            field: 'street',
-            width: 270,
-          },
-          {
-            label: 'City',
-            field: 'city',
-            width: 200,
-          },
-          {
-            label: 'State',
-            field: 'state',
-            width: 200,
-          },
-          {
-            label: 'Zip Code',
-            field: 'zipCode',
-            width: 200,
-          },
-        ],
-        rows: [
-          
-          {
-            name: 'SQL injectors',
-            street: '1234 Way St.',
-            city: 'Edinburgh',
-            state: 'VA',
-            zipCode: '23523',
-            
-          },
-          {
-            name: 'Flask Exploit',
-            street: '0101 Jinja Ave.',
-            city: 'Moonie',
-            state: 'WA',
-            zipCode: '87609',
-          }
-          
-        ]
-      }
+      
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -88,7 +36,7 @@ class Hospital extends React.Component {
               Hospital's Data Uploader
           </header>
         {/* Name, Street, city, state, zip code */}
-        <Form.Group controlId="name" className="groupForms">
+        {/* <Form.Group controlId="name" className="groupForms">
           <Form.Row>
             <Col>
               <Form.Label className="labelForms" column="sm">
@@ -169,11 +117,11 @@ class Hospital extends React.Component {
         </Form.Group>
         <Button variant="outline-danger" type="submit">
           Submit
-        </Button>
+        </Button> */}
 
        
       {/* table  */}
-        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={this.state.datatable} />
+      <HospitalTable />
       </div>
     );
   }

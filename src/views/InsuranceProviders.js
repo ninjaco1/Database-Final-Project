@@ -2,53 +2,13 @@ import React from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../InsuranceProviders.css"
-import { MDBDataTableV5 } from 'mdbreact';
+import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
+import InsuranceProvidersTable from "../Components/InsuranceProvidersTable";
 
 class InsuranceProviders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      provider_name: "",
-      preExistingConditions: "",
-      deductable: 0
-	  datatable: {
-        columns: [
-          {
-            label: 'Name',
-            field: 'provider_name',
-            width: 150,
-            attributes: {
-            'aria-controls': 'DataTable',
-            'aria-label': 'Name',
-            }
-          },
-          {
-            label: 'Pre-existing Conditions',
-            field: 'preExistingConditions',
-            width: 270,
-          },
-          {
-            label: 'Deductible',
-            field: 'deductable',
-            width: 200,
-          },
-        ],
-        rows: [
-          
-          {
-            name: 'State Cities',
-			preExistingConditions: 'No',
-			deductable: 100.50;
-            
-          },
-          {
-            name: 'All Father',
-			preExistingConditions: 'Yes',
-			deductable: 300;
-          }
-          
-        ]
-      }
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -65,7 +25,7 @@ class InsuranceProviders extends React.Component {
         <header>
               Insurance Provider's Data Upload
         </header>
-        <Form.Group controlId="name" className="groupForms">
+        {/* <Form.Group controlId="name" className="groupForms">
           <Form.Row>
             <Col>
               <Form.Label className="labelForms" column="sm">
@@ -80,28 +40,6 @@ class InsuranceProviders extends React.Component {
                 placeholder="Provider Name"
                 className="controlForms"
                 name="provider_name"
-                onChange={this.handleChange}
-                // value={this.state.first_name}
-              />
-            </Col>
-          </Form.Row>
-        </Form.Group>
-
-        <Form.Group controlId="name" className="groupForms">
-          <Form.Row>
-            <Col>
-              <Form.Label className="labelForms" column="sm">
-                Pre-existing Conditions
-              </Form.Label>
-            </Col>
-            <Col>
-              <Form.Control
-                required
-                size="sm"
-                type="text"
-                placeholder="Pre-existing Conditions"
-                className="controlForms"
-                name="preExistingConditions"
                 onChange={this.handleChange}
                 // value={this.state.first_name}
               />
@@ -133,10 +71,10 @@ class InsuranceProviders extends React.Component {
 
         <Button variant="outline-danger" type="submit">
           Submit
-        </Button>
+        </Button> */}
 		 {/* table  */}
-        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={this.state.datatable} />
-      </div>
+      <InsuranceProvidersTable />
+            </div>
     );
   }
 }

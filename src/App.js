@@ -10,6 +10,7 @@ import Doctors from "./views/Doctors";
 import Hospital from './views/Hospital';
 import InsuranceProviders from './views/InsuranceProviders';
 import Patients from "./views/Patients";
+import Drugs from "./views/Drug";
 import Header from "./Components/Header"
 import Pharmacies from "./views/Pharmacies";
 import Home from "./Components/Home";
@@ -43,6 +44,10 @@ function App() {
 
           <Route path="/my-app/pharmacies">
             <Pharmacies />
+          </Route>
+
+          <Route path="/my-app/drugs">
+            <Drugs />
           </Route>
           <Route path="/">
             <Home />

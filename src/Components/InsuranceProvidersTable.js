@@ -33,7 +33,7 @@ export default function InsuranceProvidersTable() {
   const [rows, setRows] = useState(
     generateRows({
       columnValues: { id: ({ index }) => index, ...defaultColumnValues },
-      length: 8,
+      length: 2,
     })
   );
 
