@@ -21,12 +21,12 @@ function App() {
   return (
     <div className="App">
    
-      <Router>
+      {/* <Router> */}
         {/* header on every page */}
         <Header /> 
         {/* Route */}
-        <Switch>
-          <Route path="/my-app/doctors">
+        {/* <Switch> */}
+          {/* <Route path="/my-app/doctors">
             <Doctors />
           </Route>
           
@@ -49,13 +49,20 @@ function App() {
           <Route path="/my-app/drugs">
             <Drugs />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <Home />
-          </Route>
-        </Switch>
+          </Route> */}
+        {/* </Switch> */}
 
-      </Router>
-
+      {/* </Router> */}
+      <Route exact path='/'component={Home}/>
+      <Route path='/doctors' component={Doctors}/>
+      <Route path='/hospitals' component={Hospital}/>
+      <Route path='/insurance' component={InsuranceProviders}/>
+      <Route path='/patients' component={Patients}/>
+      <Route path='/pharmacies' component={Pharmacies}/>
+      <Route path='/drugs' component={Drugs}/>
+     
     </div>
   );
 }
