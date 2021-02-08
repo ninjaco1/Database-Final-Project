@@ -16,16 +16,28 @@ function Header() {
     <div>
       {/* Navbar  */}
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="/">Hospital for SQL Injectors</Navbar.Brand>
+        <Navbar.Brand href="https://ninjaco1.github.io/my-app/#/">
+          Hospital for SQL Injectors
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <NavDropdown title="Data Uploaders" id="collapsable-nav-dropdown">
-            <NavDropdown.Item href="/my-app/#/hospitals">Hospitals</NavDropdown.Item>
-              <NavDropdown.Item href="/my-app/#/doctors">Doctors</NavDropdown.Item>
-              <NavDropdown.Item href="/my-app/#/patients">Patients</NavDropdown.Item>
-              <NavDropdown.Item href="/my-app/#/insurance">Insurance Providers</NavDropdown.Item>
-              <NavDropdown.Item href="/my-app/#/pharmacies">Pharmacies</NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/hospitals">
+                Hospitals
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/doctors">
+                Doctors
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/patients">
+                Patients
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/insurance">
+                Insurance Providers
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/pharmacies">
+                Pharmacies
+              </NavDropdown.Item>
               <NavDropdown.Item href="/my-app/#/drugs">Drugs</NavDropdown.Item>
             </NavDropdown>
             {/* <Nav.Link href="/pricing">Pricing</Nav.Link> */}
