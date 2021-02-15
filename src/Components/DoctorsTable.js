@@ -20,6 +20,7 @@ let lname = ["Nguyen","Hershberger", "Myers", "Smith"];
 let DOBs = ["1981/12/25","1999/6/22","2010/2/11"];
 let phoneNumbers = ["xxx-xxx-xxx"];
 let numberOfPatients = [0,1,2,3,4,5,6];
+let HospitalName = ["SQL Injections", "Flask Exploits", "Athen's Health"];
 
  const defaultColumnValues = {
     first_name: fnames,
@@ -27,7 +28,8 @@ let numberOfPatients = [0,1,2,3,4,5,6];
     DOB: DOBs,
     sex: ['M', 'F'],
     phone_number: phoneNumbers,
-    number_of_patients: numberOfPatients
+    number_of_patients: numberOfPatients,
+    HospitalName:HospitalName
 };
 
 
@@ -40,6 +42,7 @@ export default function DoctorsTable() {
     { name: "sex", title: "Sex" },
     { name: "phone_number", title: "Phone Number" },
     { name: "number_of_patients", title: "Number of Patients" },
+    { name: "HospitalName", title: "Hospital Name" },
   ]);
   const [rows, setRows] = useState(
     generateRows({

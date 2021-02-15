@@ -38,7 +38,12 @@ function Header() {
               <NavDropdown.Item href="/my-app/#/pharmacies">
                 Pharmacies
               </NavDropdown.Item>
-              <NavDropdown.Item href="/my-app/#/drugs">Drugs</NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/drugs">
+                Drugs
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/my-app/#/relationships">
+                Relationships
+              </NavDropdown.Item>
             </NavDropdown>
             {/* <Nav.Link href="/pricing">Pricing</Nav.Link> */}
           </Nav>

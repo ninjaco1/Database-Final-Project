@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { EditingState, SearchState, IntegratedFiltering } from "@devexpress/dx-react-grid";
+import {
+  EditingState,
+  SearchState,
+  IntegratedFiltering,
+} from "@devexpress/dx-react-grid";
 import {
   Grid,
   Table,
@@ -12,52 +16,19 @@ import {
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 import randomSeed from "./random";
 
-
 const getRowId = (row) => row.id;
+let patientid = [1,2,3,4];
+let pharmacyid = [1,2,3,4];
 
-let fnames = ["Anthony","Jacob",'Bob','Bara']
-let lname = ["Nguyen","Hershberger", "Myers", "Smith"];
-let DOBs = ["1981/12/25","1999/6/22","2010/2/11"];
-let weights = [168, 156, 300, 120];
-let heights = [72, 72, 300, 30];
-let phoneNumbers = ["xxx-xxx-xxx"];
-let bloodType = ["O-", "O+", "AB+", "AB-", "A+", "A-", "B+", "B-"];
-let medicationAllergies = [1, 0];
-let insuranceProvider = ["All-Father", "Red Sword"];
-let employeeID = [1,2,3,4];
-let hospitalName = ["SQL Injections", "Flask Exploits", "Athen's Health"];
-
- const defaultColumnValues = {
-    first_name: fnames,
-    last_name: lname,
-    DOB: DOBs,
-    sex: ['M', 'F'],
-    weight: weights,
-    height: heights,
-    phone_number: phoneNumbers,
-    blood_type: bloodType,
-    medication_allergies: medicationAllergies,
-    insuranceProvider: insuranceProvider,
-    employeeID: employeeID,
-    hospitalName: hospitalName
+const defaultColumnValues = {
+  patient_id: patientid,
+  pharmacy_id: pharmacyid,
 };
 
-
-export default function PatientsTable() {
-    
+export default function PharmaciesPatientsTable() {
   const [columns] = useState([
-    { name: "first_name", title: "First Name" },
-    { name: "last_name", title: "Last Name" },
-    { name: "DOB", title: "Date of Birth" },
-    { name: "weight", title: "Weight" },
-    { name: "height", title: "Height" },
-    { name: "sex", title: "Sex" },
-    { name: "phone_number", title: "Phone Number" },
-    { name: "blood_type", title: "Blood Type" },
-    { name: "medication_allergies", title: "Medication Allergies" },
-    { name: "insuranceProvider", title: "Insurance Provider" },
-    { name: "employeeID", title: "Doctor's ID" },
-    { name: "hospitalName", title: "Hospital Name"}
+    { name: "patient_id", title: "Patient's ID" },
+    { name: "pharmacy_id", title: "Pharmacies ID" },
   ]);
   const [rows, setRows] = useState(
     generateRows({
@@ -93,10 +64,10 @@ export default function PatientsTable() {
 
   return (
     <div className="card">
-        {/* seach  */}
-        {/* table */}
+      {/* seach  */}
+      {/* table */}
       <Grid rows={rows} columns={columns} getRowId={getRowId}>
-        <SearchState/>
+        <SearchState />
         <IntegratedFiltering />
         <EditingState onCommitChanges={commitChanges} />
         <Table />
@@ -108,8 +79,7 @@ export default function PatientsTable() {
       </Grid>
     </div>
   );
-};
-
+}
 
 function generateRows({
   columnValues = defaultColumnValues,
