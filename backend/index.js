@@ -1,5 +1,4 @@
 const express = require("express");
-var router = express.Router();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
@@ -32,27 +31,31 @@ app.get("/hospital/get", (req, res) => {
   });
 });
 
-// app.post("/hospital/insert", (req, res) => {
-//     const sqlInsert = 'INSERT INTO Hospitals VALUES (?, ?, ?, ?, ?);';
-//     db.query();
 
-app.get("/hospital/insert", (req, res) => {
-  const hospitalName = req.body.Hospital_Name;
+
+app.post("/hospital/insert", (req, res) => {
+  const hospitalName = req.body.hospitalName;
   const hospitalAddress = req.body.Street_Address;
   const hospitalCity = req.body.City;
   const hospitalState = req.body.State;
   const hospitalZipcode = req.body.Zip_Code;
 
+  console.log("req: " + req.body.Hospital_Name + ", hospitalName: " + hospitalName)
+  console.log("req1: " + req.body.hospitalName);
+  // res.send(req.body)
   const sqlInsert =
     'INSERT INTO Hospitals VALUES (?, ?, ?, ?, ?);'; // insert into hospital table
 
   db.query(sqlInsert,[hospitalName, hospitalAddress, hospitalCity, hospitalState, hospitalZipcode], (err, result) => {
+    // console.log(result)
     if(err){
       res.write(JSON.stringify(err));
                 res.end();
-        console.log(err);
+        console.log("error: " + err);
+        console.log("results: " + result)
     }else{
       res.send("main page");
+      console.log(result)
     }
   });
 });
