@@ -22,13 +22,14 @@ export default function InsuranceHospitalsTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/insurancehospitals/get").then((response) => {
+    Axios.get(
+      "http://flip2.engr.oregonstate.edu:3001/api/insurancehospitals/get"
+    ).then((response) => {
       // console.log(response.data);
       // for (let i = 0; i < length; i++) {
       //   response.data[i].id = 1;
       // }
       setTestjson(response.data);
-
     });
   }, []);
   const [columns] = useState([
@@ -40,11 +41,13 @@ export default function InsuranceHospitalsTable() {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/insurancehospitals/insert", {
-        providerName: added[0].Provider_Name, 
-        hospitalName: added[0].Hospital_Name, 
-
-      }).then(() => {
+      Axios.post(
+        "http://flip2.engr.oregonstate.edu/api/insurancehospitals/insert",
+        {
+          providerName: added[0].Provider_Name,
+          hospitalName: added[0].Hospital_Name,
+        }
+      ).then(() => {
         console.log("insert insurancehospital successful");
       });
     }

@@ -22,13 +22,14 @@ export default function PharmaciesPatientsTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/pharmaciespatients/get").then((response) => {
+    Axios.get(
+      "http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/get"
+    ).then((response) => {
       // console.log(response.data);
       // for (let i = 0; i < length; i++) {
       //   response.data[i].id = 1;
       // }
       setTestjson(response.data);
-
     });
   }, []);
 
@@ -41,10 +42,13 @@ export default function PharmaciesPatientsTable() {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/pharmaciespatients/insert", {
-        patientId: added[0].Patient_ID, 
-        pharmacyId: added[0].Pharmacy_ID, 
-      }).then(() => {
+      Axios.post(
+        "http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/insert",
+        {
+          patientId: added[0].Patient_ID,
+          pharmacyId: added[0].Pharmacy_ID,
+        }
+      ).then(() => {
         console.log("insert pharmaciespatients successful");
       });
     }

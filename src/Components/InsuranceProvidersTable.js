@@ -22,14 +22,15 @@ export default function InsuranceProvidersTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/insurance/get").then((response) => {
-      // console.log(response.data);
-      // for (let i = 0; i < length; i++) {
-      //   response.data[i].id = 1;
-      // }
-      setTestjson(response.data);
-
-    });
+    Axios.get("http://flip2.engr.oregonstate.edu:3001/api/insurance/get").then(
+      (response) => {
+        // console.log(response.data);
+        // for (let i = 0; i < length; i++) {
+        //   response.data[i].id = 1;
+        // }
+        setTestjson(response.data);
+      }
+    );
   }, []);
 
     
@@ -42,10 +43,13 @@ export default function InsuranceProvidersTable() {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/insurance/insert", {
-        providerName: added[0].Provider_Name, 
-        providerDeductable: added[0].Deductible, 
-      }).then(() => {
+      Axios.post(
+        "http://flip2.engr.oregonstate.edu:3001/api/insurance/insert",
+        {
+          providerName: added[0].Provider_Name,
+          providerDeductable: added[0].Deductible,
+        }
+      ).then(() => {
         console.log("insert InsuranceProviders successful");
       });
     }

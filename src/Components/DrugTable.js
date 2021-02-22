@@ -21,14 +21,15 @@ const getRowId = (row) => row.id;
 let [testjson, setTestjson] = useState([]);
 
 useEffect(() => {
-  Axios.get("http://localhost:3001/api/drugs/get").then((response) => {
-    // console.log(response.data);
-    // for (let i = 0; i < length; i++) {
-    //   response.data[i].id = 1;
-    // }
-    setTestjson(response.data);
-
-  });
+  Axios.get("http://flip2.engr.oregonstate.edu:3001/api/drugs/get").then(
+    (response) => {
+      // console.log(response.data);
+      // for (let i = 0; i < length; i++) {
+      //   response.data[i].id = 1;
+      // }
+      setTestjson(response.data);
+    }
+  );
 }, []);
 
   const [columns] = useState([
@@ -39,7 +40,7 @@ useEffect(() => {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/drugs/insert", {
+      Axios.post("http://flip2.engr.oregonstate.edu:3001/api/drugs/insert", {
         drugName: added[0].Drug_Name,
       }).then(() => {
         console.log("insert hospital successful");
