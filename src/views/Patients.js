@@ -25,7 +25,7 @@ class Patients extends React.Component {
   render() {
 
     return (
-      <div class="PatientsPage">
+      <div className="PatientsPage">
         <header>
           <p>Patient's Data Uploader</p>
         </header>

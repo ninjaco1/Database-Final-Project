@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EditingState,
   SearchState,
@@ -14,59 +14,55 @@ import {
   TableEditColumn,
 } from "@devexpress/dx-react-grid-bootstrap4";
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
-import randomSeed from "./random";
+import Axios from "axios";
 
 const getRowId = (row) => row.id;
-let patientid = [1,2,3,4];
-let pharmacyid = [1,2,3,4];
-
-const defaultColumnValues = {
-  patient_id: patientid,
-  pharmacy_id: pharmacyid,
-};
 
 export default function PharmaciesPatientsTable() {
+  let [testjson, setTestjson] = useState([]);
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/pharmaciespatients/get").then((response) => {
+      // console.log(response.data);
+      // for (let i = 0; i < length; i++) {
+      //   response.data[i].id = 1;
+      // }
+      setTestjson(response.data);
+
+    });
+  }, []);
+
   const [columns] = useState([
-    { name: "patient_id", title: "Patient's ID" },
-    { name: "pharmacy_id", title: "Pharmacies ID" },
+    { name: "Patient_ID", title: "Patient's ID" },
+    { name: "Pharmacy_ID", title: "Pharmacies ID" },
   ]);
-  const [rows, setRows] = useState(
-    generateRows({
-      columnValues: { id: ({ index }) => index, ...defaultColumnValues },
-      length: 8,
-    })
-  );
 
   const commitChanges = ({ added, changed, deleted }) => {
+    // insert into the back end
     let changedRows;
     if (added) {
-      const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-      changedRows = [
-        ...rows,
-        ...added.map((row, index) => ({
-          id: startingAddedId + index,
-          ...row,
-        })),
-      ];
+      Axios.post("http://localhost:3001/api/pharmaciespatients/insert", {
+        patientId: added[0].Patient_ID, 
+        pharmacyId: added[0].Pharmacy_ID, 
+      }).then(() => {
+        console.log("insert pharmaciespatients successful");
+      });
     }
     if (changed) {
-      changedRows = rows.map((row) =>
-        changed[row.id] ? { ...row, ...changed[row.id] } : row
-      );
+      // changedRows = testjson.map((row) =>
+      //   changed[row.id] ? { ...row, ...changed[row.id] } : row
+      // );
     }
-    if (deleted) {
-      const deletedSet = new Set(deleted);
-      changedRows = rows.filter((row) => !deletedSet.has(row.id));
+    if (deleted) {//Too pull from do deleted[0].
+      // const deletedSet = new Set(deleted);
+      // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
     }
-    setRows(changedRows);
+    // setRows(changedRows);
   };
 
   return (
     <div className="card">
-      {/* seach  */}
-      {/* table */}
-      <Grid rows={rows} columns={columns} getRowId={getRowId}>
+      <Grid rows={testjson} columns={columns}>
         <SearchState />
         <IntegratedFiltering />
         <EditingState onCommitChanges={commitChanges} />
@@ -81,39 +77,4 @@ export default function PharmaciesPatientsTable() {
   );
 }
 
-function generateRows({
-  columnValues = defaultColumnValues,
-  length,
-  random = randomSeed(329972281),
-}) {
-  const data = [];
-  const columns = Object.keys(columnValues);
 
-  for (let i = 0; i < length; i += 1) {
-    const record = {};
-
-    columns.forEach((column) => {
-      let values = columnValues[column];
-
-      if (typeof values === "function") {
-        record[column] = values({ random, index: i, record });
-        return;
-      }
-
-      while (values.length === 2 && typeof values[1] === "object") {
-        values = values[1][record[values[0]]];
-      }
-
-      const value = values[Math.floor(random() * values.length)];
-      if (typeof value === "object") {
-        record[column] = { ...value };
-      } else {
-        record[column] = value;
-      }
-    });
-
-    data.push(record);
-  }
-
-  return data;
-}

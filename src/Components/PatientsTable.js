@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { EditingState, SearchState, IntegratedFiltering } from "@devexpress/dx-react-grid";
 import {
   Grid,
@@ -10,92 +10,74 @@ import {
   TableEditColumn,
 } from "@devexpress/dx-react-grid-bootstrap4";
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
-import randomSeed from "./random";
+import Axios from "axios";
 
-
-const getRowId = (row) => row.id;
-
-let fnames = ["Anthony","Jacob",'Bob','Bara']
-let lname = ["Nguyen","Hershberger", "Myers", "Smith"];
-let DOBs = ["1981/12/25","1999/6/22","2010/2/11"];
-let weights = [168, 156, 300, 120];
-let heights = [72, 72, 300, 30];
-let phoneNumbers = ["xxx-xxx-xxx"];
-let bloodType = ["O-", "O+", "AB+", "AB-", "A+", "A-", "B+", "B-"];
-let medicationAllergies = [1, 0];
-let insuranceProvider = ["All-Father", "Red Sword"];
-let employeeID = [1,2,3,4];
-let hospitalName = ["SQL Injections", "Flask Exploits", "Athen's Health"];
-
- const defaultColumnValues = {
-    first_name: fnames,
-    last_name: lname,
-    DOB: DOBs,
-    sex: ['M', 'F'],
-    weight: weights,
-    height: heights,
-    phone_number: phoneNumbers,
-    blood_type: bloodType,
-    medication_allergies: medicationAllergies,
-    insuranceProvider: insuranceProvider,
-    employeeID: employeeID,
-    hospitalName: hospitalName
-};
-
+// const getRowId = (row) => row.id;
 
 export default function PatientsTable() {
-    
+  let [testjson, setTestjson] = useState([]);
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/patients/get").then((response) => {
+      setTestjson(response.data);
+    });
+  }, []);
+
   const [columns] = useState([
-    { name: "first_name", title: "First Name" },
-    { name: "last_name", title: "Last Name" },
+    { name: "First_name", title: "First Name" },
+    { name: "Last_name", title: "Last Name" },
     { name: "DOB", title: "Date of Birth" },
-    { name: "weight", title: "Weight" },
-    { name: "height", title: "Height" },
-    { name: "sex", title: "Sex" },
-    { name: "phone_number", title: "Phone Number" },
-    { name: "blood_type", title: "Blood Type" },
-    { name: "medication_allergies", title: "Medication Allergies" },
-    { name: "insuranceProvider", title: "Insurance Provider" },
-    { name: "employeeID", title: "Doctor's ID" },
-    { name: "hospitalName", title: "Hospital Name"}
+    { name: "Weight", title: "Weight (lbs)" },
+    { name: "Height", title: "Height (in)" },
+    { name: "Sex", title: "Sex" },
+    { name: "Phone_number", title: "Phone Number" },
+    { name: "Blood_type", title: "Blood Type" },
+    { name: "Medication_Allergies", title: "Medication Allergies" },
+    { name: "Insurance_Provider", title: "Insurance Provider" },
+    { name: "Employee_ID", title: "Employee ID" },
+    { name: "Hospital_Name", title: "Hospital Name" },
+    { name: "Patient_ID", title: "Patient ID(NOTHING)" },
+
   ]);
-  const [rows, setRows] = useState(
-    generateRows({
-      columnValues: { id: ({ index }) => index, ...defaultColumnValues },
-      length: 8,
-    })
-  );
 
   const commitChanges = ({ added, changed, deleted }) => {
+    // insert into the back end
     let changedRows;
     if (added) {
-      const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-      changedRows = [
-        ...rows,
-        ...added.map((row, index) => ({
-          id: startingAddedId + index,
-          ...row,
-        })),
-      ];
+      Axios.post("http://localhost:3001/api/patients/insert", {
+        patientsFirst_name: added[0].First_name,
+        patientsLast_name: added[0].Last_name,
+        patientsDOB: added[0].DOB,
+        patientsWeight: added[0].Weight,
+        patientsHeight: added[0].Height,
+        patientsSex: added[0].Sex,
+        patientsPhone_number: added[0].Phone_number,
+        patientsBlood_type: added[0].Blood_type,
+        patientsMedication_Allergies: added[0].Medication_Allergies,
+        patientsInsurance_Provider: added[0].Insurance_Provider,
+        patientsEmployee_ID: added[0].Employee_ID,
+        patientsHospital_Name: added[0]. Hospital_Name,
+      }).then(() => {
+        console.log("insert Patients successful");
+      });
     }
     if (changed) {
-      changedRows = rows.map((row) =>
-        changed[row.id] ? { ...row, ...changed[row.id] } : row
-      );
+      // changedRows = testjson.map((row) =>
+      //   changed[row.id] ? { ...row, ...changed[row.id] } : row
+      // );
     }
-    if (deleted) {
-      const deletedSet = new Set(deleted);
-      changedRows = rows.filter((row) => !deletedSet.has(row.id));
+    if (deleted) {//Too pull from do deleted[0].
+      // const deletedSet = new Set(deleted);
+      // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
     }
-    setRows(changedRows);
+
   };
 
   return (
     <div className="card">
         {/* seach  */}
         {/* table */}
-      <Grid rows={rows} columns={columns} getRowId={getRowId}>
+      <Grid rows={testjson} columns={columns}>
         <SearchState/>
         <IntegratedFiltering />
         <EditingState onCommitChanges={commitChanges} />
@@ -109,41 +91,3 @@ export default function PatientsTable() {
     </div>
   );
 };
-
-
-function generateRows({
-  columnValues = defaultColumnValues,
-  length,
-  random = randomSeed(329972281),
-}) {
-  const data = [];
-  const columns = Object.keys(columnValues);
-
-  for (let i = 0; i < length; i += 1) {
-    const record = {};
-
-    columns.forEach((column) => {
-      let values = columnValues[column];
-
-      if (typeof values === "function") {
-        record[column] = values({ random, index: i, record });
-        return;
-      }
-
-      while (values.length === 2 && typeof values[1] === "object") {
-        values = values[1][record[values[0]]];
-      }
-
-      const value = values[Math.floor(random() * values.length)];
-      if (typeof value === "object") {
-        record[column] = { ...value };
-      } else {
-        record[column] = value;
-      }
-    });
-
-    data.push(record);
-  }
-
-  return data;
-}
