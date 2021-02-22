@@ -22,9 +22,10 @@ export default function DrugsPharmacyTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/drugspharmacy/get").then((response) => {
+    Axios.get(
+      "http://flip2.engr.oregonstate.edu:3001/api/drugspharmacy/get"
+    ).then((response) => {
       setTestjson(response.data);
-
     });
   }, []);
 
@@ -37,10 +38,13 @@ export default function DrugsPharmacyTable() {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/drugspharmacy/insert", {
-        drugName: added[0].Drug_Name, 
-        pharmacyId: added[0].Pharmacy_ID,  
-      }).then(() => {
+      Axios.post(
+        "http://flip2.engr.oregonstate.edu:3001/api/drugspharmacy/insert",
+        {
+          drugName: added[0].Drug_Name,
+          pharmacyId: added[0].Pharmacy_ID,
+        }
+      ).then(() => {
         console.log("insert drugspharmacy successful");
       });
     }

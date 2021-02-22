@@ -18,9 +18,11 @@ export default function PatientsTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/patients/get").then((response) => {
-      setTestjson(response.data);
-    });
+    Axios.get("http://flip2.engr.oregonstate.edu:3001/api/patients/get").then(
+      (response) => {
+        setTestjson(response.data);
+      }
+    );
   }, []);
 
   const [columns] = useState([
@@ -44,7 +46,7 @@ export default function PatientsTable() {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/patients/insert", {
+      Axios.post("http://flip2.engr.oregonstate.edu:3001/api/patients/insert", {
         patientsFirst_name: added[0].First_name,
         patientsLast_name: added[0].Last_name,
         patientsDOB: added[0].DOB,
@@ -56,7 +58,7 @@ export default function PatientsTable() {
         patientsMedication_Allergies: added[0].Medication_Allergies,
         patientsInsurance_Provider: added[0].Insurance_Provider,
         patientsEmployee_ID: added[0].Employee_ID,
-        patientsHospital_Name: added[0]. Hospital_Name,
+        patientsHospital_Name: added[0].Hospital_Name,
       }).then(() => {
         console.log("insert Patients successful");
       });

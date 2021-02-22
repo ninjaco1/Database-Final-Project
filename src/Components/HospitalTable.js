@@ -22,14 +22,15 @@ export default function HospitalTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/hospital/get").then((response) => {
-      // console.log(response.data);
-      // for (let i = 0; i < length; i++) {
-      //   response.data[i].id = 1;
-      // }
-      setTestjson(response.data);
-
-    });
+    Axios.get("http://flip2.engr.oregonstate.edu:3001/api/hospital/get").then(
+      (response) => {
+        // console.log(response.data);
+        // for (let i = 0; i < length; i++) {
+        //   response.data[i].id = 1;
+        // }
+        setTestjson(response.data);
+      }
+    );
   }, []);
 
   const [columns] = useState([
@@ -44,12 +45,12 @@ export default function HospitalTable() {
     // insert into the back end
     let changedRows;
     if (added) {
-      Axios.post("http://localhost:3001/api/hospital/insert", {
-        hospitalName: added[0].Hospital_Name, 
-        hospitalAddress: added[0].Street_Address, 
-        hospitalCity: added[0].City, 
-        hospitalState: added[0].State, 
-        hospitalZipcode: parseInt(added[0].Zip_Code) 
+      Axios.post("http://flip2.engr.oregonstate.edu:3001/api/hospital/insert", {
+        hospitalName: added[0].Hospital_Name,
+        hospitalAddress: added[0].Street_Address,
+        hospitalCity: added[0].City,
+        hospitalState: added[0].State,
+        hospitalZipcode: parseInt(added[0].Zip_Code),
       }).then(() => {
         console.log("insert hospital successful");
       });

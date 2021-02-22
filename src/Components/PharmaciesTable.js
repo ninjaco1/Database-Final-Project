@@ -20,13 +20,15 @@ export default function PharmaciesTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/pharmacies/get").then((response) => {
-      // console.log(response.data);
-      // for (let i = 0; i < length; i++) {
-      //   response.data[i].id = 1;
-      // }
-      setTestjson(response.data);
-    });
+    Axios.get("http://flip2.engr.oregonstate.edu:3001/api/pharmacies/get").then(
+      (response) => {
+        // console.log(response.data);
+        // for (let i = 0; i < length; i++) {
+        //   response.data[i].id = 1;
+        // }
+        setTestjson(response.data);
+      }
+    );
   }, []);
 
   const [columns] = useState([
@@ -44,13 +46,16 @@ export default function PharmaciesTable() {
     if (added) {
       // console.log("added: " + added[0].Name);
 
-      Axios.post("http://localhost:3001/api/pharmacies/insert", {
-        pharmacyName: added[0].Name,
-        pharmacyAddress: added[0].Street_Address,
-        pharmacyCity: added[0].City,
-        pharmacyState: added[0].State,
-        pharmacyZipcode: parseInt(added[0].Zip_Code),
-      }).then(() => {
+      Axios.post(
+        "http://flip2.engr.oregonstate.edu:3001/api/pharmacies/insert",
+        {
+          pharmacyName: added[0].Name,
+          pharmacyAddress: added[0].Street_Address,
+          pharmacyCity: added[0].City,
+          pharmacyState: added[0].State,
+          pharmacyZipcode: parseInt(added[0].Zip_Code),
+        }
+      ).then(() => {
         console.log("insert pharmacy successful");
       });
     }
