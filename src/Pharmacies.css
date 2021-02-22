@@ -1,0 +1,28 @@
+.text-muted{
+    color: black!important;
+}
+
+.FormPatients {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 10px;
+    
+}
+
+.GroupPatient {
+    width: 350px;
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 10px;
+}
+
+.PatientsPage {
+    height: 100%;
+    
+}
+
+.internalText{
+    text-align: center;
+}

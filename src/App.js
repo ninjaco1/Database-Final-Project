@@ -13,6 +13,7 @@ import Patients from "./views/Patients";
 import Drugs from "./views/Drug";
 import Header from "./Components/Header"
 import Pharmacies from "./views/Pharmacies";
+import Relationships from "./views/Relationships";
 import Home from "./Components/Home";
 
 
@@ -62,6 +63,7 @@ function App() {
       <Route path='/patients' component={Patients}/>
       <Route path='/pharmacies' component={Pharmacies}/>
       <Route path='/drugs' component={Drugs}/>
+      <Route path='/relationships' component={Relationships}/>
      
     </div>
   );

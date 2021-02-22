@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { EditingState, SearchState, IntegratedFiltering } from "@devexpress/dx-react-grid";
 import {
   Grid,
@@ -10,75 +10,93 @@ import {
   TableEditColumn,
 } from "@devexpress/dx-react-grid-bootstrap4";
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
-import randomSeed from "./random";
+import Axios from "axios";
 
 
-const getRowId = (row) => row.id;
 
-let fnames = ["Anthony","Jacob",'Bob','Bara']
-let lname = ["Nguyen","Hershberger", "Myers", "Smith"];
-let DOBs = ["1981/12/25","1999/6/22","2010/2/11"];
-let phoneNumbers = ["xxx-xxx-xxx"];
-let numberOfPatients = [0,1,2,3,4,5,6];
-let HospitalName = ["SQL Injections", "Flask Exploits", "Athen's Health"];
+// const getRowId = (row) => row.id;
 
- const defaultColumnValues = {
-    first_name: fnames,
-    last_name: lname,
-    DOB: DOBs,
-    sex: ['M', 'F'],
-    phone_number: phoneNumbers,
-    number_of_patients: numberOfPatients,
-    HospitalName:HospitalName
-};
+// let fnames = ["Anthony","Jacob",'Bob','Bara']
+// let lname = ["Nguyen","Hershberger", "Myers", "Smith"];
+// let DOBs = ["1981/12/25","1999/6/22","2010/2/11"];
+// let phoneNumbers = ["xxx-xxx-xxx"];
+// let numberOfPatients = [0,1,2,3,4,5,6];
+// let HospitalName = ["SQL Injections", "Flask Exploits", "Athen's Health"];
+
+//  const defaultColumnValues = {
+//     first_name: fnames,
+//     last_name: lname,
+//     DOB: DOBs,
+//     sex: ['M', 'F'],
+//     phone_number: phoneNumbers,
+//     number_of_patients: numberOfPatients,
+//     HospitalName:HospitalName
+// };
 
 
 export default function DoctorsTable() {
-    
+    let [testjson, setTestjson] = useState([]);
   const [columns] = useState([
-    { name: "first_name", title: "First Name" },
-    { name: "last_name", title: "Last Name" },
+    { name: "First_Name", title: "First Name" },
+    { name: "Last_Name", title: "Last Name" },
     { name: "DOB", title: "Date of Birth" },
-    { name: "sex", title: "Sex" },
-    { name: "phone_number", title: "Phone Number" },
-    { name: "number_of_patients", title: "Number of Patients" },
-    { name: "HospitalName", title: "Hospital Name" },
+    { name: "Sex", title: "Sex" },
+    { name: "Phone_Number", title: "Phone Number" },
+    { name: "Number_of_Patients", title: "Number of Patients" },
+    { name: "Hospital_Name", title: "Hospital Name" },
+    { name: "Employee_ID", title: "Employee ID (NOTHING)" },
   ]);
-  const [rows, setRows] = useState(
-    generateRows({
-      columnValues: { id: ({ index }) => index, ...defaultColumnValues },
-      length: 4,
-    })
-  );
+  // const [rows, setRows] = useState(
+  //   generateRows({
+  //     columnValues: { id: ({ index }) => index, ...defaultColumnValues },
+  //     length: 4,
+  //   })
+  // );
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/doctor/get").then((response) => {
+      // console.log(response.data);
+      // for (let i = 0; i < length; i++) {
+      //   response.data[i].id = 1;
+      // }
+      setTestjson(response.data);
+    });
+  }, []);
+
+
 
   const commitChanges = ({ added, changed, deleted }) => {
+    // insert into the back end
     let changedRows;
     if (added) {
-      const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-      changedRows = [
-        ...rows,
-        ...added.map((row, index) => ({
-          id: startingAddedId + index,
-          ...row,
-        })),
-      ];
+      Axios.post("http://localhost:3001/api/doctor/insert", {
+        fName: added[0].First_Name,
+        lName: added[0].Last_Name,
+        DOB: added[0].DOB,
+        sex: added[0].Sex,
+        phoneNumber: added[0].Phone_Number,
+        numberOfPatients: added[0].Number_of_Patients,
+        hospitalName: added[0].Hospital_Name,
+      }).then(() => {
+        console.log("insert doctor successful");
+      });
     }
     if (changed) {
-      changedRows = rows.map((row) =>
-        changed[row.id] ? { ...row, ...changed[row.id] } : row
-      );
+      // changedRows = testjson.map((row) =>
+      //   changed[row.id] ? { ...row, ...changed[row.id] } : row
+      // );
     }
     if (deleted) {
-      const deletedSet = new Set(deleted);
-      changedRows = rows.filter((row) => !deletedSet.has(row.id));
+      //Too pull from do deleted[0].
+      // const deletedSet = new Set(deleted);
+      // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
     }
-    setRows(changedRows);
+    // setRows(changedRows);
   };
 
   return (
     <div className="card">
-      <Grid rows={rows} columns={columns} getRowId={getRowId}>
+      <Grid rows={testjson} columns={columns}>
       <SearchState/>
         <IntegratedFiltering />
         <EditingState onCommitChanges={commitChanges} />
@@ -93,40 +111,3 @@ export default function DoctorsTable() {
   );
 };
 
-
-function generateRows({
-  columnValues = defaultColumnValues,
-  length,
-  random = randomSeed(329972281),
-}) {
-  const data = [];
-  const columns = Object.keys(columnValues);
-
-  for (let i = 0; i < length; i += 1) {
-    const record = {};
-
-    columns.forEach((column) => {
-      let values = columnValues[column];
-
-      if (typeof values === "function") {
-        record[column] = values({ random, index: i, record });
-        return;
-      }
-
-      while (values.length === 2 && typeof values[1] === "object") {
-        values = values[1][record[values[0]]];
-      }
-
-      const value = values[Math.floor(random() * values.length)];
-      if (typeof value === "object") {
-        record[column] = { ...value };
-      } else {
-        record[column] = value;
-      }
-    });
-
-    data.push(record);
-  }
-
-  return data;
-}

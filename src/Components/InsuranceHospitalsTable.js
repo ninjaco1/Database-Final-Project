@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EditingState,
   SearchState,
@@ -14,59 +14,55 @@ import {
   TableEditColumn,
 } from "@devexpress/dx-react-grid-bootstrap4";
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
-import randomSeed from "./random";
+import Axios from "axios";
 
 const getRowId = (row) => row.id;
-let providerName = ["All-Father","Red Sword"];
-let HospitalName = ["SQL Injections", "Flask Exploits", "Athen's Health"];
-
-const defaultColumnValues = {
-  providerName: providerName,
-  HospitalName: HospitalName,
-};
 
 export default function InsuranceHospitalsTable() {
-  const [columns] = useState([
-    { name: "providerName", title: "Provider's Name" },
-    { name: "HospitalName", title: "Hospital's Name" },
-  ]);
-  const [rows, setRows] = useState(
-    generateRows({
-      columnValues: { id: ({ index }) => index, ...defaultColumnValues },
-      length: 8,
-    })
-  );
+  let [testjson, setTestjson] = useState([]);
 
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/insurancehospitals/get").then((response) => {
+      // console.log(response.data);
+      // for (let i = 0; i < length; i++) {
+      //   response.data[i].id = 1;
+      // }
+      setTestjson(response.data);
+
+    });
+  }, []);
+  const [columns] = useState([
+    { name: "Provider_Name", title: "Provider's Name" },
+    { name: "Hospital_Name", title: "Hospital's Name" },
+  ]);
+  
   const commitChanges = ({ added, changed, deleted }) => {
+    // insert into the back end
     let changedRows;
     if (added) {
-      const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-      changedRows = [
-        ...rows,
-        ...added.map((row, index) => ({
-          id: startingAddedId + index,
-          ...row,
-        })),
-      ];
+      Axios.post("http://localhost:3001/api/insurancehospitals/insert", {
+        providerName: added[0].Provider_Name, 
+        hospitalName: added[0].Hospital_Name, 
+
+      }).then(() => {
+        console.log("insert insurancehospital successful");
+      });
     }
     if (changed) {
-      changedRows = rows.map((row) =>
-        changed[row.id] ? { ...row, ...changed[row.id] } : row
-      );
+      // changedRows = testjson.map((row) =>
+      //   changed[row.id] ? { ...row, ...changed[row.id] } : row
+      // );
     }
-    if (deleted) {
-      const deletedSet = new Set(deleted);
-      changedRows = rows.filter((row) => !deletedSet.has(row.id));
+    if (deleted) {//Too pull from do deleted[0].
+      // const deletedSet = new Set(deleted);
+      // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
     }
-    setRows(changedRows);
+    // setRows(changedRows);
   };
 
   return (
     <div className="card">
-      {/* seach  */}
-      {/* table */}
-      <Grid rows={rows} columns={columns} getRowId={getRowId}>
+      <Grid rows={testjson} columns={columns}>
         <SearchState />
         <IntegratedFiltering />
         <EditingState onCommitChanges={commitChanges} />
@@ -81,39 +77,4 @@ export default function InsuranceHospitalsTable() {
   );
 }
 
-function generateRows({
-  columnValues = defaultColumnValues,
-  length,
-  random = randomSeed(329972281),
-}) {
-  const data = [];
-  const columns = Object.keys(columnValues);
 
-  for (let i = 0; i < length; i += 1) {
-    const record = {};
-
-    columns.forEach((column) => {
-      let values = columnValues[column];
-
-      if (typeof values === "function") {
-        record[column] = values({ random, index: i, record });
-        return;
-      }
-
-      while (values.length === 2 && typeof values[1] === "object") {
-        values = values[1][record[values[0]]];
-      }
-
-      const value = values[Math.floor(random() * values.length)];
-      if (typeof value === "object") {
-        record[column] = { ...value };
-      } else {
-        record[column] = value;
-      }
-    });
-
-    data.push(record);
-  }
-
-  return data;
-}
