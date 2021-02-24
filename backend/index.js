@@ -6,7 +6,7 @@ const mysql = require("mysql");
 
 const db = mysql.createPool({
   connectionList: 10,
-  host: "vpc-ded18ba6",
+  host: "cs340-hershbja.cxcaw7nnejkc.us-west-2.rds.amazonaws.com",
   user: "cs340_hershbja",
   password: "mysqlinjections",
   database: "cs340-hershbja",
