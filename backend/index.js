@@ -6,10 +6,10 @@ const mysql = require("mysql");
 
 const db = mysql.createPool({
   connectionList: 10,
-  host: "classmysql.engr.oregonstate.edu",
+  host: "vpc-ded18ba6",
   user: "cs340_hershbja",
   password: "mysqlinjections",
-  database: "cs340_hershbja",
+  database: "cs340-hershbja",
 });
 module.exports.pool = db;
 
