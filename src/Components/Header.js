@@ -16,7 +16,7 @@ function Header() {
     <div>
       {/* Navbar  */}
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="https://ninjaco1.github.io/my-app/#/">
+        <Navbar.Brand href="http://flip2.engr.oregonstate.edu:2343/#/">
           Hospital for SQL Injectors
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
