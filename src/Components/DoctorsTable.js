@@ -37,19 +37,20 @@ export default function DoctorsTable() {
 
     useEffect(() => {
         Axios.get("http://flip2.engr.oregonstate.edu:3001/api/doctor/get").then(
+        //Axios.get("http://localhost:3001/api/doctor/get").then(
             (response) => {
-                // console.log(response.data);
-                // for (let i = 0; i < length; i++) {
-                //   response.data[i].id = 1;
-                // }
-                setTestjson(response.data);
-            }
-        );
+            // console.log(response.data);
+            // for (let i = 0; i < length; i++) {
+            //   response.data[i].id = 1;
+            // 
+        
+            setTestjson(response.data);
+        });
     }, []);
 
     const commitChanges = ({ added, changed, deleted }) => {
         // insert into the back end
-        let changedRows;
+        
         if (added) {
             Axios.post(
                 "http://flip2.engr.oregonstate.edu:3001/api/doctor/insert",
@@ -64,21 +65,100 @@ export default function DoctorsTable() {
                 }
             ).then(() => {
                 console.log("insert doctor successful");
+                window.location.reload();
             });
         }
         if (changed) {
-            // changedRows = testjson.map((row) =>
-            //   changed[row.id] ? { ...row, ...changed[row.id] } : row
-            // );
+            console.log(changed); // print out the index and the object, only gives you the things that are changed
+            console.log(Object.keys(changed)[0]); // index
+            // console.log(changed[Object.keys(changed)[0]].Street_Address);
+            let index = Object.keys(changed)[0]; // index that has the change
+
+            // if(changed[0].)
+            // let name = testjson[index].Employee_ID;
+            if (changed[Object.keys(changed)[0]]) {
+                let First_Name,
+                    Last_Name,
+                    DOB,
+                    Sex,
+                    Phone_Number,
+                    Number_of_Patients,
+                    Hospital_Name;
+                if (changed[Object.keys(changed)[0]].First_name) {
+                    First_Name = changed[Object.keys(changed)[0]].First_Name;
+                } else {
+                    First_Name = testjson[index].First_Name;
+                }
+                if (changed[Object.keys(changed)[0]].Last_Name) {
+                    Last_Name = changed[Object.keys(changed)[0]].Last_Name;
+                } else {
+                    Last_Name = testjson[index].Last_Name;
+                }
+
+                if (changed[Object.keys(changed)[0]].DOB) {
+                    DOB = changed[Object.keys(changed)[0]].DOB;
+                } else {
+                    DOB = testjson[index].DOB;
+                }
+
+                if (changed[Object.keys(changed)[0]].Sex) {
+                    Sex = changed[Object.keys(changed)[0]].Sex;
+                } else {
+                    Sex = testjson[index].Sex;
+                }
+
+                if (changed[Object.keys(changed)[0]].Phone_Number) {
+                    Phone_Number =
+                        changed[Object.keys(changed)[0]].Phone_Number;
+                } else {
+                    Phone_Number = testjson[index].Phone_Number;
+                }
+
+                if (changed[Object.keys(changed)[0]].Hospital_Name) {
+                    Hospital_Name =
+                        changed[Object.keys(changed)[0]].Hospital_Name;
+                } else {
+                    Hospital_Name = testjson[index].Hospital_Name;
+                }
+
+                if (changed[Object.keys(changed)[0]].Number_of_Patients) {
+                    Number_of_Patients =
+                        changed[Object.keys(changed)[0]].Number_of_Patients;
+                } else {
+                    Number_of_Patients = testjson[index].Number_of_Patients;
+                }
+
+                Axios.put("http://flip2.engr.oregonstate.edu:3001/api/doctor/update", {
+                    doctorID: parseInt(testjson[index].Employee_ID),
+                    fName: First_Name,
+                    lName: Last_Name,
+                    DOB: DOB,
+                    sex: Sex,
+                    phoneNumber: Phone_Number,
+                    numberOfPatients: Number_of_Patients,
+                    hospitalName: Hospital_Name,
+                }).then(() => {
+                    console.log("update successful for Doctor");
+                    window.location.reload();
+                });
+            } else {
+                // when there are no changes to the index
+                console.log("no change");
+            }
         }
+
         if (deleted) {
-            //Too pull from do deleted[0].
-            // const deletedSet = new Set(deleted);
-            // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
+            //deleted[0] gives the index
+            let doctorID = testjson[deleted[0]].Employee_ID;
+            // Axios.delete("http://flip2.engr.oregonstate.edu:3001/api/delete/${patintID}");
+            Axios.delete(
+                `http://flip2.engr.oregonstate.edu:3001/api/doctor/delete/${doctorID}`
+            ).then(() => {
+                window.location.reload();
+            });
         }
         // setRows(changedRows);
     };
-
     return (
         <div className="card">
             <Grid rows={testjson} columns={columns}>

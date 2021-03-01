@@ -16,20 +16,15 @@ import {
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 import Axios from "axios";
 
-const getRowId = (row) => row.id;
-
 export default function PharmaciesPatientsTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
     Axios.get(
-      "http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/get"
+        //"http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/get"
+        "http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/get"
     ).then((response) => {
-      // console.log(response.data);
-      // for (let i = 0; i < length; i++) {
-      //   response.data[i].id = 1;
-      // }
-      setTestjson(response.data);
+        setTestjson(response.data);
     });
   }, []);
 
@@ -38,31 +33,34 @@ export default function PharmaciesPatientsTable() {
     { name: "Pharmacy_ID", title: "Pharmacies ID" },
   ]);
 
-  const commitChanges = ({ added, changed, deleted }) => {
+  const commitChanges = ({ added, deleted }) => {
     // insert into the back end
-    let changedRows;
     if (added) {
       Axios.post(
-        "http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/insert",
-        {
-          patientId: added[0].Patient_ID,
-          pharmacyId: added[0].Pharmacy_ID,
-        }
+          "http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/insert",
+          {
+              patientId: added[0].Patient_ID,
+              pharmacyId: added[0].Pharmacy_ID,
+          }
       ).then(() => {
-        console.log("insert pharmaciespatients successful");
+          console.log("insert pharmaciespatients successful");
+          window.location.reload();
       });
     }
-    if (changed) {
-      // changedRows = testjson.map((row) =>
-      //   changed[row.id] ? { ...row, ...changed[row.id] } : row
-      // );
-    }
-    if (deleted) {//Too pull from do deleted[0].
-      // const deletedSet = new Set(deleted);
-      // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
-    }
-    // setRows(changedRows);
-  };
+    
+    if (deleted) {
+      // let name = testjson[deleted[0]].;
+      let patientId = testjson[deleted[0]].Patient_ID;
+      let pharmacyId = testjson[deleted[0]].Pharmacy_ID;
+
+      // Axios.delete("http://flip2.engr.oregonstate.edu:3001/api/hospital/delete/${drugName}/${pharmacyId}");
+      Axios.delete(
+          `http://flip2.engr.oregonstate.edu:3001/api/pharmaciespatients/delete/${patientId}/${pharmacyId}`
+      ).then(() => {
+          window.location.reload();
+      });
+  }
+}
 
   return (
     <div className="card">
@@ -73,12 +71,10 @@ export default function PharmaciesPatientsTable() {
         <Table />
         <TableHeaderRow />
         <TableEditRow />
-        <TableEditColumn showAddCommand showEditCommand showDeleteCommand />
+        <TableEditColumn showAddCommand showDeleteCommand />
         <Toolbar />
         <SearchPanel />
       </Grid>
     </div>
   );
 }
-
-

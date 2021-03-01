@@ -20,15 +20,16 @@ export default function PharmaciesTable() {
   let [testjson, setTestjson] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://flip2.engr.oregonstate.edu:3001/api/pharmacies/get").then(
-      (response) => {
-        // console.log(response.data);
-        // for (let i = 0; i < length; i++) {
-        //   response.data[i].id = 1;
-        // }
-        setTestjson(response.data);
-      }
-    );
+    //Axios.get("http://flip2.engr.oregonstate.edu:3001/api/pharmacies/get").then(
+      Axios.get(
+          "http://flip2.engr.oregonstate.edu:3001/api/pharmacies/get"
+      ).then((response) => {
+          // console.log(response.data);
+          // for (let i = 0; i < length; i++) {
+          //   response.data[i].id = 1;
+          // }
+          setTestjson(response.data);
+      });
   }, []);
 
   const [columns] = useState([
@@ -42,9 +43,8 @@ export default function PharmaciesTable() {
 
   const commitChanges = ({ added, changed, deleted }) => {
     // insert into the back end
-    let changedRows;
     if (added) {
-      // console.log("added: " + added[0].Name);
+      
 
       Axios.post(
         "http://flip2.engr.oregonstate.edu:3001/api/pharmacies/insert",
@@ -57,21 +57,83 @@ export default function PharmaciesTable() {
         }
       ).then(() => {
         console.log("insert pharmacy successful");
+        window.location.reload();
       });
     }
     if (changed) {
-      // changedRows = testjson.map((row) =>
-      //   changed[row.id] ? { ...row, ...changed[row.id] } : row
-      // );
-    }
-    if (deleted) {
-      //Too pull from do deleted[0].
-      // const deletedSet = new Set(deleted);
-      // changedRows = testjson.filter((row) => !deletedSet.has(row.id));
-    }
-    // setRows(changedRows);
-  };
+      console.log(changed); // print out the index and the object, only gives you the things that are changed
+      console.log(Object.keys(changed)[0]); // index
+      // console.log(changed[Object.keys(changed)[0]].Street_Address);
+      let index = Object.keys(changed)[0]; // index that has the change
 
+         // if(changed[0].)
+         let id = testjson[index].Pharmacy_ID;
+         if (changed[Object.keys(changed)[0]]) {
+             let name, address, city, state, zipCode;
+             if (changed[Object.keys(changed)[0]].Name) {
+                 name = changed[Object.keys(changed)[0]].Name;
+             }
+             else {
+               name = testjson[index].Name;
+             }
+
+             if (changed[Object.keys(changed)[0]].Street_Address) {
+                 address = changed[Object.keys(changed)[0]].Street_Address;
+             }
+             else {
+               address = testjson[index].Street_Address;
+             }
+
+             if (changed[Object.keys(changed)[0]].City) {
+                 city = changed[Object.keys(changed)[0]].City;
+             }
+             else {
+               city = testjson[index].City;
+             }
+
+             if (changed[Object.keys(changed)[0]].State) {
+                 state = changed[Object.keys(changed)[0]].State;
+             } else {
+                 state = testjson[index].State;
+             }
+
+             if (changed[Object.keys(changed)[0]].Zip_Code) {
+                 zipCode = changed[Object.keys(changed)[0]].Zip_Code;
+             } else {
+                 zipCode = testjson[index].Zip_Code;
+             }
+
+             Axios.put(
+                 "http://flip2.engr.oregonstate.edu:3001/api/pharmacies/update",
+                 {
+                     pharmacyID: parseInt(id),
+                     pharmacyName: name,
+                     pharmacyAddress: address,
+                     pharmacyCity: city,
+                     pharmacyState: state,
+                     pharmacyZipcode: parseInt(zipCode),
+                 }
+             ).then(() => {
+                 console.log("update successful for pharmacy");
+                 window.location.reload();
+             });
+         } else {
+             // when there are no changes to the index
+             console.log("no change");
+         }
+     }
+
+     if (deleted) {
+         //deleted[0] gives the index
+         let id = testjson[deleted[0]].Pharmacy_ID;
+         // Axios.delete("http://flip2.engr.oregonstate.edu:3001/api/hospital/delete/${name}");
+         Axios.delete(
+             `http://flip2.engr.oregonstate.edu:3001/api/pharmacies/delete/${id}`
+         ).then(() => {
+             window.location.reload();
+         });
+     }
+ };
   return (
     <div className="card">
       <Grid rows={testjson} columns={columns}>

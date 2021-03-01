@@ -1,4 +1,3 @@
-
 -- Drug Manipulation
 SELECT *
 FROM Drugs;

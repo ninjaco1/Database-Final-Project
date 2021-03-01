@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Doctors (
     Sex varchar(1),
     Phone_Number VARCHAR(10),
     Number_of_Patients int DEFAULT NULL,
-    Hospital_Name VARCHAR(255) NOT NULL,
+    Hospital_Name VARCHAR(255),
     FOREIGN KEY (Hospital_Name) REFERENCES Hospitals(Hospital_Name),
     UNIQUE (Employee_ID)
 );
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS Patients(
     Blood_type char(3) DEFAULT NULL,
     Medication_Allergies BOOLEAN,
     Insurance_Provider VARCHAR(255),
-    Employee_ID int NOT NULL,
-    Hospital_Name VARCHAR(255) NOT NULL,
+    Employee_ID int,
+    Hospital_Name VARCHAR(255),
     FOREIGN KEY (Insurance_Provider) REFERENCES Insurance_Providers(Provider_Name),
     FOREIGN KEY (Employee_ID) REFERENCES Doctors(Employee_ID),
     FOREIGN KEY (Hospital_Name) REFERENCES Hospitals(Hospital_Name)

@@ -1,10 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   HashRouter as Router,
-  Switch,
   Route,
-  Link
 } from "react-router-dom";
 import Doctors from "./views/Doctors";
 import Hospital from './views/Hospital';
@@ -25,35 +22,6 @@ function App() {
       {/* <Router> */}
         {/* header on every page */}
         <Header /> 
-        {/* Route */}
-        {/* <Switch> */}
-          {/* <Route path="/my-app/doctors">
-            <Doctors />
-          </Route>
-          
-          <Route path="/my-app/hospitals">
-            <Hospital />
-          </Route>
-
-          <Route path="/my-app/insurance">
-            <InsuranceProviders />
-          </Route>
-
-          <Route path="/my-app/patients">
-            <Patients />
-          </Route>
-
-          <Route path="/my-app/pharmacies">
-            <Pharmacies />
-          </Route>
-
-          <Route path="/my-app/drugs">
-            <Drugs />
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route> */}
-        {/* </Switch> */}
 
       {/* </Router> */}
       <Route exact path='/'component={Home}/>
