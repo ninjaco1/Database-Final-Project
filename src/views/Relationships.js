@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Button, Col, Form } from "react-bootstrap";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "../RelationshipTable.css";
 import DrugsPharmacyTable from "../Components/DrugsPharmacyTable";
