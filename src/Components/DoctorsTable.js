@@ -84,7 +84,7 @@ export default function DoctorsTable() {
                     Phone_Number,
                     Number_of_Patients,
                     Hospital_Name;
-                if (changed[Object.keys(changed)[0]].First_name) {
+                if (changed[Object.keys(changed)[0]].First_Name) {
                     First_Name = changed[Object.keys(changed)[0]].First_Name;
                 } else {
                     First_Name = testjson[index].First_Name;

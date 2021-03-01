@@ -40,7 +40,7 @@ export default function InsuranceHospitalsTable() {
         // insert into the back end
         if (added) {
             Axios.post(
-                "http://flip2.engr.oregonstate.edu/api/insurancehospitals/insert",
+                "http://flip2.engr.oregonstate.edu:3001/api/insurancehospitals/insert",
                 {
                     providerName: added[0].Provider_Name,
                     hospitalName: added[0].Hospital_Name,

@@ -176,6 +176,7 @@ export default function PatientsTable() {
               }
           ).then(() => {
               console.log("update successful for patients");
+              window.location.reload();
           });
       } else {
           // when there are no changes to the index

@@ -111,7 +111,7 @@ export default function HospitalTable() {
         if (deleted) {
             //deleted[0] gives the index
             let name = testjson[deleted[0]].Hospital_Name;
-             Axios.delete("http://flip2.engr.oregonstate.edu:3001/api/hospital/delete/${name}")
+             Axios.delete(`http://flip2.engr.oregonstate.edu:3001/api/hospital/delete/${name}`)
             //Axios.delete(`http://localhost:3001/api/hospital/delete/${name}`)
             .then(()=> {
                 window.location.reload();

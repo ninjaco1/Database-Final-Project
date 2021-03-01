@@ -54,7 +54,7 @@ export default function DrugsPharmacyTable() {
             let drugName = testjson[deleted[0]].Drug_Name;
             let pharmacyId = testjson[deleted[0]].Pharmacy_ID;
 
-             Axios.delete("http://flip2.engr.oregonstate.edu:3001/api/hospital/delete/${drugName}/${pharmacyId}")
+             Axios.delete(`http://flip2.engr.oregonstate.edu:3001/api/drugspharmacy/delete/${drugName}/${pharmacyId}`)
             //Axios.delete(`http://localhost:3001/api/drugspharmacy/delete/${drugName}/${pharmacyId}`)
             .then(
                 () => {

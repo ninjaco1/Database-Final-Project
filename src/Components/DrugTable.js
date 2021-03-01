@@ -49,7 +49,7 @@ export default function DrugsTable() {
         if (deleted) {
             //deleted[0] gives the index
             let name = testjson[deleted[0]].Drug_Name;
-             Axios.delete("http://flip2.engr.oregonstate.edu:3001/api/hospital/delete/${name}")
+             Axios.delete(`http://flip2.engr.oregonstate.edu:3001/api/drugs/delete/${name}`)
             //Axios.delete(`http://localhost:3001/api/drugs/delete/${name}`)
             .then(
                 () => {
