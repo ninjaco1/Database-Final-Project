@@ -159,7 +159,6 @@ export default function DoctorsTable() {
         }
         // setRows(changedRows);
     };
-
     return (
         <div className="card">
             <Grid rows={testjson} columns={columns}>
